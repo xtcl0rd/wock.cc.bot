@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,24 +18,6 @@
     />
 
     <script src="assets/js/jquery-3.6.0.js"></script>
-    <script>
-        // Simulate a login state check (replace this with your actual check)
-        const isLoggedIn = localStorage.getItem('discordUser') !== null;
-        const username = localStorage.getItem('discordUser') || 'User';
-
-        window.onload = function() {
-            const loginButton = document.getElementById('loginButton');
-            const usernameDisplay = document.getElementById('usernameDisplay');
-
-            if (isLoggedIn) {
-                loginButton.style.display = 'none';
-                usernameDisplay.textContent = username;
-                usernameDisplay.style.display = 'block';
-            } else {
-                usernameDisplay.style.display = 'none';
-            }
-        };
-    </script>
 </head>
 <body>
     <!-- Back To Top Start -->
@@ -50,7 +32,6 @@
         <a class="navbar-item" href="#">
           <strong>Your Bot</strong>
         </a>
-
         <a role="button" class="navbar-burger has-text-white" data-target="navMenu" aria-label="menu" aria-expanded="false">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -76,7 +57,7 @@
           <div class="navbar-item">
             <div class="buttons">
               <span id="usernameDisplay" class="has-text-white" style="display:none;"></span>
-              <a id="loginButton" href="https://discord.com/api/oauth2/authorize?client_id=1298362931683135634&redirect_uri=https://wock-cc-bot.vercel.app&response_type=code&scope=identify" class="button is-blurple">
+              <a id="loginButton" href="https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=https://YOUR_REDIRECT_URI&response_type=code&scope=identify" class="button is-blurple">
                 <strong><i class="fa-solid fa-right-to-bracket mr-2"></i> Login with Discord</strong>
               </a>
             </div>
@@ -89,28 +70,26 @@
     <!-- Hero Section Start -->
     <section class="hero bg-base is-fullheight">
       <div class="hero-body">
-        <div class="">
-          <div class="columns">
-            <div class="column mr-6 mt-12" data-aos="fade-up">
-              <p class="title has-text-white has-text-weight-bold">
-                Time to add [your bot] to your server.
-              </p>
-              <p class="subtitle has-text-grey-light is-size-6 mt-3">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-              <div class="buttons">
-                <a href="https://discord.com/api/oauth2/authorize?client_id=1297969295086583970&scope=bot&permissions=8" class="button is-info">
-                  <strong>Add To Discord</strong>
-                </a>
-                <a href="#" class="button is-primary is-outlined">
-                  <strong><i class="fa-solid fa-crown"></i> Premium</strong>
-                </a>
-              </div>
+        <div class="columns">
+          <div class="column mr-6 mt-12" data-aos="fade-up">
+            <p class="title has-text-white has-text-weight-bold">
+              Time to add [your bot] to your server.
+            </p>
+            <p class="subtitle has-text-grey-light is-size-6 mt-3">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <div class="buttons">
+              <a href="https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_CLIENT_ID&scope=bot&permissions=8" class="button is-info">
+                <strong>Add To Discord</strong>
+              </a>
+              <a href="#" class="button is-primary is-outlined">
+                <strong><i class="fa-solid fa-crown"></i> Premium</strong>
+              </a>
             </div>
-            <div class="column mt-6" data-aos="fade-left">
-              <img class="image has-image-centered vert-move mt-4" src="assets/img/relaunch_day.svg" alt="hero image" style="width: 20rem;" />
-            </div>
+          </div>
+          <div class="column mt-6" data-aos="fade-left">
+            <img class="image has-image-centered vert-move mt-4" src="assets/img/relaunch_day.svg" alt="hero image" style="width: 20rem;" />
           </div>
         </div>
       </div>
@@ -164,14 +143,11 @@
             <i class="fa-brands fa-github"></i>
           </a>
         </div>
-
         <p>
           <span class="has-text-weight-bold">[Your Bot]</span>
           <br />
-          &copy; <span id="cp-year"></span> Copyright [Bot Owner]. All Rights
-          Reserved.
+          &copy; <span id="cp-year"></span> Copyright [Bot Owner]. All Rights Reserved.
         </p>
-
         <p style="letter-spacing: 0.1em;" class="is-uppercase">
           Website Designed By
           <a href="https://jstnlt.my.id" class="blurple has-text-weight-bold" target="_blank">JstnLT</a>.
@@ -185,55 +161,52 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="assets/js/script.js"></script>
-<script>
-window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const loginButton = document.getElementById('loginButton');
-    const usernameDisplay = document.getElementById('usernameDisplay');
+    <script>
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const loginButton = document.getElementById('loginButton');
+            const usernameDisplay = document.getElementById('usernameDisplay');
 
-    // Check for login success or error
-    if (urlParams.has('login')) {
-        const loginStatus = urlParams.get('login');
-        if (loginStatus === 'success') {
-            alert('Successfully logged in! Welcome, ' + urlParams.get('username'));
-        } else if (loginStatus === 'error') {
-            alert('Login failed. Please try again.');
+            // Check for login success or error
+            if (urlParams.has('login')) {
+                const loginStatus = urlParams.get('login');
+                if (loginStatus === 'success') {
+                    alert('Successfully logged in! Welcome, ' + urlParams.get('username'));
+                } else if (loginStatus === 'error') {
+                    alert('Login failed. Please try again.');
+                }
+            }
+
+            // Check localStorage for username
+            const storedUsername = localStorage.getItem('discordUser');
+            if (storedUsername) {
+                loginButton.style.display = 'none';
+                usernameDisplay.textContent = storedUsername;
+                usernameDisplay.style.display = 'block';
+            } else {
+                usernameDisplay.style.display = 'none';
+            }
+
+            // Call checkLoginStatus on load
+            checkLoginStatus();
+        };
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/auth/session');
+                const data = await response.json();
+                const welcomeMessage = document.getElementById('welcome-message');
+
+                if (data.loggedIn) {
+                    localStorage.setItem('discordUser', data.username);
+                    welcomeMessage.innerHTML = `Welcome ${data.username}!`;
+                } else {
+                    welcomeMessage.innerHTML = 'Welcome to Your Bot!';
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
         }
-    }
-
-    // Check localStorage for username
-    const storedUsername = localStorage.getItem('discordUser');
-    if (storedUsername) {
-        loginButton.style.display = 'none';
-        usernameDisplay.textContent = storedUsername;
-        usernameDisplay.style.display = 'block';
-    } else {
-        usernameDisplay.style.display = 'none';
-    }
-};
-
-async function checkLoginStatus() {
-    try {
-        const response = await fetch('/auth/session');
-        const data = await response.json();
-        const welcomeMessage = document.getElementById('welcome-message');
-
-        if (data.loggedIn) {
-            localStorage.setItem('discordUser', data.username);
-            welcomeMessage.innerHTML = `Welcome ${data.username}!`;
-        } else {
-            welcomeMessage.innerHTML = 'Welcome to Your Bot!';
-        }
-    } catch (error) {
-        console.error('Error checking login status:', error);
-    };
-}
-
-// Call checkLoginStatus on load
-checkLoginStatus();
-</script>
-
-
+    </script>
 </body>
 </html>
-``
