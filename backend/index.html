@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your Bot - a Discord Bot</title>
+    <link rel="stylesheet" href="../assets/css/bulma.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script src="../assets/js/jquery-3.6.0.js"></script>
+    <script>
+        const isLoggedIn = localStorage.getItem('discordUser') !== null;
+        const username = localStorage.getItem('discordUser') || 'User';
+
+        window.onload = function() {
+            const loginButton = document.getElementById('loginButton');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+
+            if (isLoggedIn) {
+                loginButton.style.display = 'none';
+                usernameDisplay.textContent = username;
+                usernameDisplay.style.display = 'block';
+            } else {
+                usernameDisplay.style.display = 'none';
+            }
+        };
+    </script>
+</head>
+<body>
+    <!-- Back To Top Start -->
+    <a id="backtotop" data-tippy-content="Back To Top.">
+      <i class="fa-solid fa-angle-up has-text-white fa-2xl mt-5"></i>
+    </a>
+    <!-- Back To Top End -->
+
+    <!-- Navbar Start -->
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand mt-2 mb-2">
+        <a class="navbar-item" href="#">
+          <strong>Your Bot</strong>
+        </a>
+
+        <a role="button" class="navbar-burger has-text-white" data-target="navMenu" aria-label="menu" aria-expanded="false">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a href="#" class="navbar-item is-tab">Home</a>
+          <a href="#features" class="navbar-item is-tab">Features</a>
+          <a href="#stats" class="navbar-item is-tab">Stats</a>
+          <a href="#" class="navbar-item is-tab">Docs</a>
+        </div>
+
+        <div class="navbar-end">
+          <a href="#" class="navbar-item is-tab" target="_blank">
+            <i class="fa-brands fa-discord"></i>
+          </a>
+          <a href="#" class="navbar-item is-tab" target="_blank">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <div class="navbar-item">
+            <div class="buttons">
+              <span id="usernameDisplay" class="has-text-white" style="display:none;"></span>
+              <a id="loginButton" href="https://discord.com/api/oauth2/authorize?client_id=1298362931683135634&redirect_uri=http://localhost:3000/auth/redirect&response_type=code&scope=identify" class="button is-blurple">
+                <strong><i class="fa-solid fa-right-to-bracket mr-2"></i> Login with Discord</strong>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Hero Section Start -->
+    <section class="hero bg-base is-fullheight">
+      <div class="hero-body">
+        <div class="">
+          <div class="columns">
+            <div class="column mr-6 mt-12" data-aos="fade-up">
+              <p class="title has-text-white has-text-weight-bold">
+                Time to add [your bot] to your server.
+              </p>
+              <p class="subtitle has-text-grey-light is-size-6 mt-3">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              </p>
+              <div class="buttons">
+                <a href="https://discord.com/api/oauth2/authorize?client_id=1297969295086583970&scope=bot&permissions=8" class="button is-info">
+                  <strong>Add To Discord</strong>
+                </a>
+                <a href="#" class="button is-primary is-outlined">
+                  <strong><i class="fa-solid fa-crown"></i> Premium</strong>
+                </a>
+              </div>
+            </div>
+            <div class="column mt-6" data-aos="fade-left">
+              <img class="image has-image-centered vert-move mt-4" src="../assets/img/relaunch_day.svg" alt="hero image" style="width: 20rem;" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="has-text-centered" data-tippy-content="Scroll Down">
+        <a href="#features">
+          <i class="fa-solid fa-circle-chevron-down fa-lg vert-move2 has-text-white"></i>
+        </a>
+      </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Features Section Start -->
+    <section id="features" class="section mt-6">
+      <div class="has-text-centered">
+        <h1 class="title lined">Features</h1>
+        <div class="line line-center blurple"></div>
+      </div>
+      <!-- Features content here -->
+    </section>
+    <!-- Features Section End -->
+
+    <!-- Invite Section Start -->
+    <section class="section mt-6">
+      <div class="columns">
+        <div class="column has-text-left">
+          <p class="title has-text-weight-bold">
+            Ready to try <span class="blurple">[your bot]</span>?
+          </p>
+          <p class="subtitle mt-3 has-text-gray">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <a href="#" class="button is-blurple is-medium">
+            <strong><i class="fa-solid fa-book"></i> Get Started</strong>
+          </a>
+        </div>
+        <div class="column"></div>
+      </div>
+    </section>
+    <!-- Invite Section End -->
+
+    <!-- Footer Section Start -->
+    <footer class="footer bg-base">
+      <div class="content has-text-centered has-text-white">
+        <div class="mb-2">
+          <a href="#" class="has-text-white" target="_blank">
+            <i class="fa-brands fa-discord"></i>
+          </a>
+          &nbsp; &nbsp;
+          <a href="#" class="has-text-white" target="_blank">
+            <i class="fa-brands fa-github"></i>
+          </a>
+        </div>
+
+        <p>
+          <span class="has-text-weight-bold">[Your Bot]</span>
+          <br />
+          &copy; <span id="cp-year"></span> Copyright [Bot Owner]. All Rights
+          Reserved.
+        </p>
+
+        <p style="letter-spacing: 0.1em;" class="is-uppercase">
+          Website Designed By
+          <a href="https://jstnlt.my.id" class="blurple has-text-weight-bold" target="_blank">JstnLT</a>.
+          <br>The Original Website Design is Open Source on <a href="https://github.com/JastinXyz/discord-bot-landing-page-web" class="blurple has-text-weight-bold" target="_blank">Github</a>
+        </p>
+      </div>
+    </footer>
+    <!-- Footer Section End -->
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script src="../assets/js/script.js"></script>
+    <script>
+        window.onload = function() {
+            const loginButton = document.getElementById('loginButton');
+            const usernameDisplay = document.getElementById('usernameDisplay');
+
+            const storedUsername = localStorage.getItem('discordUser');
+
+            if (storedUsername) {
+                loginButton.style.display = 'none';
+                usernameDisplay.textContent = storedUsername;
+                usernameDisplay.style.display = 'block';
+            } else {
+                usernameDisplay.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
