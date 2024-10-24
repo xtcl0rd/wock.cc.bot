@@ -185,13 +185,24 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="assets/js/script.js"></script>
-    <script>
+<script>
 window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
     const loginButton = document.getElementById('loginButton');
     const usernameDisplay = document.getElementById('usernameDisplay');
 
-    const storedUsername = localStorage.getItem('discordUser');
+    // Check for login success or error
+    if (urlParams.has('login')) {
+        const loginStatus = urlParams.get('login');
+        if (loginStatus === 'success') {
+            alert('Successfully logged in! Welcome, ' + urlParams.get('username'));
+        } else if (loginStatus === 'error') {
+            alert('Login failed. Please try again.');
+        }
+    }
 
+    // Check localStorage for username
+    const storedUsername = localStorage.getItem('discordUser');
     if (storedUsername) {
         loginButton.style.display = 'none';
         usernameDisplay.textContent = storedUsername;
@@ -205,25 +216,24 @@ async function checkLoginStatus() {
     try {
         const response = await fetch('/auth/session');
         const data = await response.json();
-
-        const authSection = document.getElementById('auth-section');
         const welcomeMessage = document.getElementById('welcome-message');
 
         if (data.loggedIn) {
-            // Save the username to localStorage
             localStorage.setItem('discordUser', data.username);
             welcomeMessage.innerHTML = `Welcome ${data.username}!`;
-            authSection.innerHTML = '<a href="/auth/logout">Logout</a>';
         } else {
             welcomeMessage.innerHTML = 'Welcome to Your Bot!';
-            authSection.innerHTML = '<a href="/auth/login">Login with Discord</a>';
         }
     } catch (error) {
         console.error('Error checking login status:', error);
     }
 }
 
-  </script>
+// Call checkLoginStatus on load
+checkLoginStatus();
+</script>
+
+
 </body>
 </html>
 ``
