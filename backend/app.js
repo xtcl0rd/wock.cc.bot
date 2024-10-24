@@ -5,7 +5,7 @@ const session = require('express-session');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Serve static files from the "assets" directory
 app.use(express.static(path.join(__dirname, '../assets')));
@@ -42,7 +42,7 @@ app.get('/auth/redirect', async (req, res) => {
   const code = req.query.code;
 
   if (!code) {
-    return res.status(400).send('No code provided');
+    return res.redirect('/?login=error');
   }
 
   try {
@@ -72,11 +72,11 @@ app.get('/auth/redirect', async (req, res) => {
 
     req.session.user = userResponse.data;
 
-    // Redirect to the main index.html file outside the backend folder
-    res.redirect('/');
+    // Redirect to the main page with success message
+    res.redirect(`/?login=success&username=${encodeURIComponent(userResponse.data.username)}`);
   } catch (error) {
     console.error('Error during token exchange:', error);
-    res.status(500).send('Internal Server Error');
+    res.redirect('/?login=error');
   }
 });
 
