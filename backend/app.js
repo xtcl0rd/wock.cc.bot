@@ -80,12 +80,12 @@ app.get('/auth/redirect', async (req, res) => {
   }
 });
 
-// API route to check user session status
 app.get('/auth/session', (req, res) => {
   if (req.session.user) {
     return res.json({
       loggedIn: true,
       username: req.session.user.username,
+      avatar: `https://cdn.discordapp.com/avatars/${req.session.user.id}/${req.session.user.avatar}.png`,
     });
   } else {
     return res.json({
@@ -93,6 +93,7 @@ app.get('/auth/session', (req, res) => {
     });
   }
 });
+
 
 // Logout user by destroying session
 app.get('/auth/logout', (req, res) => {
