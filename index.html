@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Your Bot - a Discord Bot</title>
-    <link rel="stylesheet" href="assets/css/bulma.min.css" />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/bulma.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
     
@@ -17,7 +17,62 @@
       referrerpolicy="no-referrer"
     />
 
-    <script src="assets/js/jquery-3.6.0.js"></script>
+    <script src="../assets/js/jquery-3.6.0.js"></script>
+    <script>
+        const isLoggedIn = localStorage.getItem('discordUser') !== null;
+        const username = localStorage.getItem('discordUser') || 'User';
+
+        window.onload = async function() {
+            await checkLoginStatus(); // Call the function to check login status
+        };
+
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('/auth/session');
+                if (!response.ok) throw new Error('Failed to load session data');
+
+                const data = await response.json();
+                
+                const loginButton = document.getElementById('loginButton');
+                const usernameDisplay = document.getElementById('usernameDisplay');
+                const avatarDisplay = document.getElementById('avatarDisplay');
+
+                if (data.loggedIn) {
+                    // Set the username and avatar
+                    localStorage.setItem('discordUser', data.username);
+                    localStorage.setItem('discordAvatar', data.avatar);
+
+                    // Display username
+                    usernameDisplay.textContent = data.username;
+                    usernameDisplay.style.display = 'block';
+                    
+                    // Display avatar
+                    avatarDisplay.src = data.avatar;
+                    avatarDisplay.style.display = 'block';
+
+                    // Hide login button
+                    loginButton.style.display = 'none';
+
+                    // Log success message to the console
+                    console.log('Logged in successfully:', data.username);
+                } else {
+                    // Remove any previous data
+                    localStorage.removeItem('discordUser');
+                    localStorage.removeItem('discordAvatar');
+
+                    // Hide username and avatar, show login button
+                    usernameDisplay.style.display = 'none';
+                    avatarDisplay.style.display = 'none';
+                    loginButton.style.display = 'block';
+
+                    // Log error message to the console
+                    console.log('User not logged in.');
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+            }
+        }
+    </script>
 </head>
 <body>
     <!-- Back To Top Start -->
@@ -32,6 +87,7 @@
         <a class="navbar-item" href="#">
           <strong>Your Bot</strong>
         </a>
+
         <a role="button" class="navbar-burger has-text-white" data-target="navMenu" aria-label="menu" aria-expanded="false">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -57,8 +113,9 @@
           <div class="navbar-item">
             <div class="buttons">
               <span id="usernameDisplay" class="has-text-white" style="display:none;"></span>
+              <img id="avatarDisplay" style="display:none; border-radius: 50%; width: 30px; height: 30px;" alt="Avatar" />
               <a id="loginButton" href="https://discord.com/api/oauth2/authorize?client_id=1298362931683135634&redirect_uri=https://wock-cc-bot.vercel.app&response_type=code&scope=identify" class="button is-blurple">
-                <strong><i class="fa-solid fa-right-to-bracket mr-2"></i> Login with Discord</strong>
+                <strong><i class="fa-solid fa-right-to-bracket"></i> Login with Discord</strong>
               </a>
             </div>
           </div>
@@ -67,146 +124,23 @@
     </nav>
     <!-- Navbar End -->
 
-    <!-- Hero Section Start -->
-    <section class="hero bg-base is-fullheight">
+    <!-- Main Content -->
+    <div class="hero is-fullheight has-background">
       <div class="hero-body">
-        <div class="columns">
-          <div class="column mr-6 mt-12" data-aos="fade-up">
-            <p class="title has-text-white has-text-weight-bold">
-              Time to add [your bot] to your server.
-            </p>
-            <p class="subtitle has-text-grey-light is-size-6 mt-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="buttons">
-              <a href="https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_CLIENT_ID&scope=bot&permissions=8" class="button is-info">
-                <strong>Add To Discord</strong>
-              </a>
-              <a href="#" class="button is-primary is-outlined">
-                <strong><i class="fa-solid fa-crown"></i> Premium</strong>
-              </a>
-            </div>
-          </div>
-          <div class="column mt-6" data-aos="fade-left">
-            <img class="image has-image-centered vert-move mt-4" src="assets/img/relaunch_day.svg" alt="hero image" style="width: 20rem;" />
-          </div>
+        <div class="container has-text-centered">
+          <h1 class="title has-text-white">Welcome to Your Bot</h1>
         </div>
       </div>
-      <div class="has-text-centered" data-tippy-content="Scroll Down">
-        <a href="#features">
-          <i class="fa-solid fa-circle-chevron-down fa-lg vert-move2 has-text-white"></i>
-        </a>
-      </div>
-    </section>
-    <!-- Hero Section End -->
+    </div>
+    <!-- Main Content End -->
 
-    <!-- Features Section Start -->
-    <section id="features" class="section mt-6">
-      <div class="has-text-centered">
-        <h1 class="title lined">Features</h1>
-        <div class="line line-center blurple"></div>
-      </div>
-      <!-- Features content here -->
-    </section>
-    <!-- Features Section End -->
-
-    <!-- Invite Section Start -->
-    <section class="section mt-6">
-      <div class="columns">
-        <div class="column has-text-left">
-          <p class="title has-text-weight-bold">
-            Ready to try <span class="blurple">[your bot]</span>?
-          </p>
-          <p class="subtitle mt-3 has-text-gray">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
-          <a href="#" class="button is-blurple is-medium">
-            <strong><i class="fa-solid fa-book"></i> Get Started</strong>
-          </a>
-        </div>
-        <div class="column"></div>
-      </div>
-    </section>
-    <!-- Invite Section End -->
-
-    <!-- Footer Section Start -->
-    <footer class="footer bg-base">
-      <div class="content has-text-centered has-text-white">
-        <div class="mb-2">
-          <a href="#" class="has-text-white" target="_blank">
-            <i class="fa-brands fa-discord"></i>
-          </a>
-          &nbsp; &nbsp;
-          <a href="#" class="has-text-white" target="_blank">
-            <i class="fa-brands fa-github"></i>
-          </a>
-        </div>
-        <p>
-          <span class="has-text-weight-bold">[Your Bot]</span>
-          <br />
-          &copy; <span id="cp-year"></span> Copyright [Bot Owner]. All Rights Reserved.
-        </p>
-        <p style="letter-spacing: 0.1em;" class="is-uppercase">
-          Website Designed By
-          <a href="https://jstnlt.my.id" class="blurple has-text-weight-bold" target="_blank">JstnLT</a>.
-          <br>The Original Website Design is Open Source on <a href="https://github.com/JastinXyz/discord-bot-landing-page-web" class="blurple has-text-weight-bold" target="_blank">Github</a>
+    <!-- Footer -->
+    <footer class="footer has-background">
+      <div class="content has-text-centered">
+        <p class="has-text-white">
+          <strong>Your Bot</strong> &copy; 2024
         </p>
       </div>
     </footer>
-    <!-- Footer Section End -->
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
-    <script src="assets/js/script.js"></script>
-    <script>
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const loginButton = document.getElementById('loginButton');
-            const usernameDisplay = document.getElementById('usernameDisplay');
-
-            // Check for login success or error
-            if (urlParams.has('login')) {
-                const loginStatus = urlParams.get('login');
-                if (loginStatus === 'success') {
-                    alert('Successfully logged in! Welcome, ' + urlParams.get('username'));
-                } else if (loginStatus === 'error') {
-                    alert('Login failed. Please try again.');
-                }
-            }
-
-            // Check localStorage for username
-            const storedUsername = localStorage.getItem('discordUser');
-            if (storedUsername) {
-                loginButton.style.display = 'none';
-                usernameDisplay.textContent = storedUsername;
-                usernameDisplay.style.display = 'block';
-            } else {
-                usernameDisplay.style.display = 'none';
-            }
-
-            // Call checkLoginStatus on load
-            checkLoginStatus();
-        };
-
-        async function checkLoginStatus() {
-            try {
-                const response = await fetch('/auth/session');
-                const data = await response.json();
-                const welcomeMessage = document.getElementById('welcome-message');
-
-                if (data.loggedIn) {
-                    localStorage.setItem('discordUser', data.username);
-                    welcomeMessage.innerHTML = `Welcome ${data.username}!`;
-                } else {
-                    welcomeMessage.innerHTML = 'Welcome to Your Bot!';
-                }
-            } catch (error) {
-                console.error('Error checking login status:', error);
-            }
-        }
-    </script>
 </body>
 </html>
