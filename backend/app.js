@@ -5,10 +5,10 @@ const session = require('express-session');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
-// Serve static files from the "assets" directory
-app.use(express.static(path.join(__dirname, '../assets')));
+// Serve static files from the assets directory
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Serve static files from the "public" folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -34,6 +34,7 @@ app.get('/auth/login', (req, res) => {
   const discordAuthURL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(
     DISCORD_REDIRECT_URI
   )}&response_type=code&scope=identify`;
+
   res.redirect(discordAuthURL);
 });
 
@@ -42,10 +43,11 @@ app.get('/auth/redirect', async (req, res) => {
   const code = req.query.code;
 
   if (!code) {
-    return res.redirect('/?login=error');
+    return res.status(400).send('No code provided');
   }
 
   try {
+    // Exchange the authorization code for an access token
     const tokenResponse = await axios.post(
       'https://discord.com/api/oauth2/token',
       new URLSearchParams({
@@ -64,28 +66,33 @@ app.get('/auth/redirect', async (req, res) => {
 
     const { access_token } = tokenResponse.data;
 
+    // Fetch the user's Discord profile using the access token
     const userResponse = await axios.get('https://discord.com/api/users/@me', {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
     });
 
-    req.session.user = userResponse.data;
+    const user = userResponse.data;
 
-    // Redirect to the main page with success message
-    res.redirect(`/?login=success&username=${encodeURIComponent(userResponse.data.username)}`);
+    // Store the user data in the session
+    req.session.user = user;
+
+    // Redirect to the home page which serves index.html
+    res.redirect('/');
   } catch (error) {
     console.error('Error during token exchange:', error);
-    res.redirect('/?login=error');
+    res.status(500).send('Internal Server Error');
   }
 });
 
+// API route to check user session status
 app.get('/auth/session', (req, res) => {
   if (req.session.user) {
     return res.json({
       loggedIn: true,
       username: req.session.user.username,
-      avatar: `https://cdn.discordapp.com/avatars/${req.session.user.id}/${req.session.user.avatar}.png`,
+      avatar: `https://cdn.discordapp.com/avatars/${req.session.user.id}/${req.session.user.avatar}.png`, // Add avatar URL
     });
   } else {
     return res.json({
@@ -94,16 +101,15 @@ app.get('/auth/session', (req, res) => {
   }
 });
 
-
 // Logout user by destroying session
 app.get('/auth/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
 
-// Home route serving index.html from the root directory
+// Home route serving index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html')); // Serve index.html from the root
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Update with the correct path
 });
 
 // Start the server
